@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: cmd/gs-analysis/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/backend/
+      - /mnt/d/wsl-symlinks/db.sqlite3:/backend/db/db.sqlite3
+
+  web:
+    build:
+      context: web
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./web:/app
+    ports:
+      - "5173:5173"

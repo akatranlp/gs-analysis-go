@@ -1,0 +1,10 @@
+**/tmp
+**/out
+**/db
+**/bin
+**/.idea
+**/.vscode
+.env
+public/*
+**/node_modules
+**/dist
