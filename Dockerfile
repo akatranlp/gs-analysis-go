@@ -1,7 +1,7 @@
 #############################################
 # Builder web
 #############################################
-FROM node:20.11.1-alpine as builder-web
+FROM node:20.11.1-alpine3.19 as builder-web
 
 WORKDIR /app/build
 COPY ./web/package.json ./web/yarn.lock ./
@@ -13,7 +13,7 @@ RUN yarn build
 #############################################
 # Builder go
 #############################################
-FROM golang:1.21-alpine as builder-go
+FROM golang:1.22-alpine3.19 as builder-go
 
 RUN apk add --no-cache gcc musl-dev
 RUN go install github.com/vektra/mockery/v2@v2.40.1
@@ -35,7 +35,7 @@ RUN CGO_ENABLED=1 GOOS=linux go build -o ./gs-analysis cmd/gs-analysis/main.go
 #############################################
 # Runtime image
 #############################################
-FROM alpine:3.18 as release
+FROM alpine:3.19 as release
 
 ENV FRONTEND_PATH=/public
 ENV PORT=3000

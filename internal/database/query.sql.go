@@ -63,7 +63,7 @@ func (q *Queries) ListAuthors(ctx context.Context) ([]Author, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []Author{}
+	var items []Author
 	for rows.Next() {
 		var i Author
 		if err := rows.Scan(&i.ID, &i.Name, &i.Bio); err != nil {

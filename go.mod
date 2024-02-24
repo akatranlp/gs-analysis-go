@@ -1,6 +1,6 @@
 module github.com/akatranlp/gs-analysis-go
 
-go 1.21.4
+go 1.22.0
 
 require (
 	github.com/caarlos0/env/v10 v10.0.0
@@ -12,6 +12,7 @@ require (
 require (
 	github.com/mfridman/interpolate v0.0.2 // indirect
 	github.com/sethvargo/go-retry v0.2.4 // indirect
+	github.com/stretchr/testify v1.8.1 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/sync v0.6.0 // indirect
 )

@@ -1,15 +1,17 @@
 package main
 
 import (
+	"context"
 	"database/sql"
+	"log"
+	"os"
+
 	"github.com/akatranlp/gs-analysis-go/internal/config"
 	"github.com/akatranlp/gs-analysis-go/internal/database"
 	"github.com/caarlos0/env/v10"
 	"github.com/joho/godotenv"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/pressly/goose/v3"
-	"log"
-	"os"
 )
 
 func main() {
@@ -22,7 +24,7 @@ func main() {
 	}
 
 	log.Println("Connecting to database...")
-	db, err := sql.Open("sqlite3", "./db/db.sqlite3")
+	conn, err := sql.Open("sqlite3", "./db/db.sqlite3")
 	if err != nil {
 		log.Fatal("failed to connect database", err)
 	}
@@ -34,9 +36,22 @@ func main() {
 		log.Fatal("failed to set dialect", err)
 	}
 
-	if err := goose.Up(db, "migrations"); err != nil {
+	if err := goose.Up(conn, "migrations"); err != nil {
 		log.Fatal("failed to migrate database", err)
 	}
+
+	db := database.New(conn)
+
+	/* db.CreateAuthor(context.Background(), database.CreateAuthorParams{
+		Name: "John Doe",
+		Bio:  utils.Ptr("Nice guy"),
+	}) */
+
+	authors, err := db.ListAuthors(context.Background())
+	if err != nil {
+		log.Fatal("failed to list authors", err)
+	}
+	log.Println(authors)
 
 	log.Println("Starting server...")
 	log.Println(os.Getenv("TEST"))
