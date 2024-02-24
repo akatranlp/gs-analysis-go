@@ -37,7 +37,7 @@ RUN CGO_ENABLED=1 GOOS=linux go build -o ./gs-analysis cmd/gs-analysis/main.go
 #############################################
 FROM alpine:3.19 as release
 
-ENV FRONTEND_PATH=/public
+ENV FRONTEND_PATH=/app/public
 ENV PORT=3000
 EXPOSE 3000
 
@@ -45,9 +45,12 @@ RUN adduser -D gorunner
 USER gorunner
 
 WORKDIR /app
-RUN mkdir db
+
+RUN mkdir -p /app/data
+
+VOLUME /app/data
 
 COPY --chown=gorunner:gorunner --from=builder-go /app/build/gs-analysis ./gs-analysis
 COPY --chown=gorunner:gorunner --from=builder-web /app/build/dist ./public
 
-ENTRYPOINT /app/gs-analysis
+CMD /app/gs-analysis

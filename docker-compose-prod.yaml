@@ -5,3 +5,10 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - app_data:/app/data
+
+volumes:
+  app_data:

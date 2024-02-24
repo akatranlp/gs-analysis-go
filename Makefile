@@ -22,5 +22,8 @@ db-up:
 db-down:
 	goose -dir ./internal/database/migrations sqlite3 ./db/db.sqlite3 down
 
-up:
+d-build:
 	docker-compose -f docker-compose-prod.yaml build
+
+d-up:
+	docker-compose -f docker-compose-prod.yaml up
